@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Words To Hex</title>
+    <style>
+      body {background-color: black};
+    </style>
+  </head>
+  <body>
+    <canvas id="mycanvas"></canvas>
+    <script>
+      function toHex(word) {
+        return (
+          "#" +
+          word
+            .slice(0, Math.min(3, word.length))
+            .split("")
+            .map((char) => char.charCodeAt(0).toString(16))
+            .join("")
+            .padEnd(6, "0")
+        );
+      }
+
+      let text = ``;
+
+      text = text
+        .split(" ")
+        .map((word) => toHex(word));
+
+      mycanvas.width = 600;
+      mycanvas.height = 600;
+      const ctx = mycanvas.getContext("2d");
+
+      const dim = Math.floor(Math.sqrt(text.length)) + 1;
+      const pixelSize = Math.floor(mycanvas.width/dim);
+
+      for (let i = 0; i < text.length; i++) {
+        ctx.fillStyle = text[i];
+        ctx.fillRect(pixelSize * (i%dim), pixelSize * Math.floor(i/dim), pixelSize, pixelSize);
+      }
+    </script>
+  </body>
+</html>
